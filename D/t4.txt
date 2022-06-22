@@ -1,0 +1,28 @@
+Because all the prices are chosen independently, we prefer to calculate the probability
+considering the shortest route between the given towns. We do so by running BFS and getting
+the distance between the given towns.
+
+We define a DP (2d vector) called probs which is defined as follows:
+	probs[budget][dist] = the probablity of traveling $dist roads with $budget money
+
+The recursive rule is as follows:
+	for current_price from 1 to R:
+		probs[budget][dist] += (1/R) * probs[budget-current_price][dist-1]
+* probs values are initiated with zeros
+That is, we currently look at the first road and for each possible price for this
+road, we ask ourselves: "if I pay price X for this road, what is the probablity I can
+get to the destination with $budget-X but with only $dist-1 roads remaning?"
+Because the prices for each road are chosen uniformly, the probablity for each possible
+price for the current road is 1/R.
+
+* The size of this vector is |max_budget|*|max_dist|.
+* We calculate the DP using top-down and memorization.
+
+Time Complexity:
+
+BFS - O(N^2)
+DP - O(budget * dist(=N)) 	// DP size
+     O(R) 				// time to calculate one cell
+     => O(budget * N * R)
+
+Total - O(budget * N * R + N^2) - ~30 million operations
