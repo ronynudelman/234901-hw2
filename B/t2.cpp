@@ -26,15 +26,6 @@ typedef pair<int, int> pii;
 #define NEG (-1.0)
 
 
-/************************************************************
-Through all the functions, instead of slicing the strings,
-we use 'from' and 'to' to tell each function to only consider
-the indexes from 'from' to 'to'.
-This way we reduce the time complexity of slicing strings
-from O(l) where l is the length of the substring to O(1)
-************************************************************/
-
-
 double eval_exp(string& exp, size_t& from, size_t& to);
 
 
@@ -56,7 +47,7 @@ bool is_digit(char c) {
 
 // given exp, return the first number when starting parsing
 // from the left side of exp.
-// exp does not start from '('.
+// assume exp does not start with '('.
 double parse_first_num(string& exp, size_t& from, size_t& to) {
     string num;
     while (from < to) {
@@ -71,7 +62,7 @@ double parse_first_num(string& exp, size_t& from, size_t& to) {
 }
 
 
-// the first char in exp is '('.
+// assume the first char in exp is '('.
 // the goal is to find its matching right parenthesis position in exp.
 // we do that using balance counter.
 size_t find_matching_closing_par_pos(string& exp, const size_t& from, const size_t& to) {
@@ -81,7 +72,6 @@ size_t find_matching_closing_par_pos(string& exp, const size_t& from, const size
         if (exp[i] == ')') balance++;
         if (balance == 0) return i;
     }
-    cout << "ERROR" << endl;
     return 0;
 }
 
@@ -124,34 +114,7 @@ double calc_simple_op(double a, char op, double b) {
     return 0.0;
 }
 
-
-// the main function for evaluating a full exp.
-// we assume that exp is of the form:
-// first_num    first_op    second_num    second_op    third_num    ...
-// each of the nums can be an exp with parenthesis.
-// we accumulate the result in the first number and in the second number
-// according to the following rule:
-// * if first_op is MUL/DIV then we perform:
-//      first_num  <-  first_num  first_op  second_num
-//   then keep reading the next tokens and insert them
-//   into first_op and second_num and keep repeating
-//   this action as long as first_op is MUL/DIV.
-// * otherwise, first_op is ADD/SUB and then we need to
-//   check second_op.
-//   * if second_op is ADD/SUB then we can perform:
-//        first_num  <-  first_num  first_op  second_num
-//     and then keep reading the next tokens and insert
-//     them into first_op and second_num.
-//   * otherwise, second_op is MUL/DIV, and then we need to
-//     save first_num and first_op in memory and perform:
-//        second_num  <-  second_num  second_op  third_num
-//     then keep reading the next tokens and insert them
-//     into second_op and third_num and keep repeating
-//     this action as long as second_op is MUL/DIV.
-//     once second_op becomes ADD/SUB then perform:
-//        first_num  <-  first_num  first_op  second_num
-//     then keep reading the next tokens and insert them
-//     into first_op and second_num
+// the main function as described in the txt file
 double eval_exp(string& exp, size_t& from, size_t& to) {
     if (from >= to) {
         return 0.0;
