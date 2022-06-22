@@ -74,6 +74,7 @@ int type2_check(const string& KMP_str, const string& KMP_pat) {
         new_pats.insert(KMP_pat.substr(0, pos) + KMP_pat.substr(pos + 1));
     }
     for (auto& new_pat : new_pats) {
+        // run simple KMP on each starting
         counter += type1_check(KMP_str, new_pat);
     }
     return counter;
@@ -92,6 +93,7 @@ int type3_check(const string& KMP_str, const string& KMP_pat) {
         new_pats.insert(KMP_pat.substr(0, pos) + "G" + KMP_pat.substr(pos));
     }
     for (auto& new_pat : new_pats) {
+        // run simple KMP on each starting
         counter += type1_check(KMP_str, new_pat);
     }
     return counter;

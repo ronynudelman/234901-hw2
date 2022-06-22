@@ -1,0 +1,17 @@
+We check the first type by simply running KMP algorithm.
+For each of the next two types, we save a set of strings which contains all the strings after
+removing characters (in type 2) or adding characters (in type 3). We save a set to ignore duplicates.
+In the second type, we delete a character from the string in each possible position, and insert
+each new string to the set. Then we run KMP algorithm on each of the strings and sum all the
+results together.
+In the third type, we add a character (A or T or G or C) in each possible position, and insert
+each new string to the set.  Then we run KMP algorithm on each of the strings and sum all the
+results together.
+
+Time complexity:
+
+Type 1 - O(|L|)
+Type 2 - O(|L| * |S|)
+Type 3 - O(|L| * |S|)
+
+Total - O(|L| * |S|) - ~50,000 operations
