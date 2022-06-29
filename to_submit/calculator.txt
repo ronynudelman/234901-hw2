@@ -1,0 +1,33 @@
+First, we remove any spaces between tokens.
+During the evaluation of the given expression, we consider only the first 3 numbers and
+the first 2 operations, which we will call:
+first_num, first_op, second_num, second_op, third_num
+Each of these numbers can be a simple number or can be a sub expression, which starts and ends with parentheses.
+In case one of the numbers is a sub expression, then we evaluate it recursively.
+We accumalate the results in the first_num or in the second_num according to the
+following rules:
+1. if first_op is MUL/DIV then we perform:
+	first_num  <-  first_num  first_op  second_num
+   then we shift the next tokens into first_op and second_num and repeat the
+   process as long as this condition stands.
+2. if first_op is ADD/SUB then we need to check second_op.
+     * if it's ADD/SUB too then we perform:
+	   first_num  <-  first_num  first_op  second_num
+       then we shift the next tokens into first_op and second_num and repeat the
+       process as long as this condition stands.
+     * if it's MUL/DIV then we perform (while saving first_num and first_op):
+	   second_num  <-  second_num  second_op  third_num
+       then we shift the next tokens into second_op and third_num and repeat the
+       process as long as this condition stands.
+
+Whenever we need to evaluate a sub expression (starts and ends with parentheses),
+we do that recursively by sending to the recursive function only pointers to the
+start and the end of the sub expression, telling it to only consider the tokens
+between these two pointers. This way, we avoid slicing it in O(n) and thus save time.
+
+Time Complexity:
+
+Removing spaces - O(|S|)
+Evaluating the expression - O(|S|)
+
+Total - O(|S|)
