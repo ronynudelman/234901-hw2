@@ -1,0 +1,17 @@
+We use the algorithm we saw in the slides.
+First we sort all the points according to X.
+Then we initialize an empty set called strip (which is sorted by Y) and run over all
+the sorted points while saving the min dist we got so far.
+For each point, we filter the strip by removing points which are far from the current
+point, according to the following rule:
+	if current_point.x - point_in_strip.x >= min_dist
+	then remove point_in_strip from the strip
+The strip is sorted by Y, thus we can easily find the close points to the current_point
+by using lower_bound and upper_bound, by up to Y-distance min_dist.
+Now we have max of 5 candidates and we check if the distance between each of them is
+smaller than min_dist and update min_dist accordingly.
+We insert the current point to the strip and move on to the next point.
+
+Time Complexity:
+
+O(n*log(n)) as we saw in the lecture.
